@@ -19,10 +19,15 @@
     settings.auto-optimise-store = true;
   };
 
+  programs.bash = {
+    enableCompletion = true;
+  };
+
   # System-wide packages
   environment.systemPackages = with pkgs; [
     vim
     wget
+    bash
   ];
 
   # Fonts configuration

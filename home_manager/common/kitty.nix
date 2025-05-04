@@ -1,10 +1,21 @@
 { config, lib, pkgs, ... }:
-
 {
+  home.packages = with pkgs; [
+    jetbrains-mono
+    nerdfonts
+    (nerdfonts.override {
+      fonts = [
+        "JetBrainsMono"
+        "NerdFontsSymbolsOnly"
+      ];
+    })
+  ];
+
   programs.kitty = lib.mkForce {
     enable = true;
     settings = {
-      shell = "zsh";
+      shell = "${pkgs.zsh}/bin/zsh";
+      shell_integration = "no-rc";
       confirm_os_window_close = 0;
       dynamic_background_opacity = true;
       enable_audio_bell = false;
@@ -40,13 +51,9 @@
             "U+E5FA-U+E62B"
           ];
         in
-        (builtins.concatStringsSep "," mappings) + " Symbols Nerd Font";
+        (builtins.concatStringsSep "," mappings) + " JetBrainsMono Nerd Font";
     };
-    
-    # Changed from theme to themeFile
-    # themeFile = "${pkgs.kitty-themes}/share/kitty-themes/Catppuccin-Mocha.conf";
-    # Or you could just remove the theme line completely for now
-    
+
     keybindings = {
       "ctrl+shift+c" = "copy_to_clipboard";
       "ctrl+shift+v" = "paste_from_clipboard";
@@ -57,10 +64,4 @@
       "ctrl+shift+l" = "next_layout";
     };
   };
-  
-  # Ensure required fonts are available
-  home.packages = with pkgs; [
-    jetbrains-mono
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-  ];
 }

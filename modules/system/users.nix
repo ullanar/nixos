@@ -1,16 +1,14 @@
 { config, lib, pkgs, ... }:
 
 {
-  users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
   # Define user account
   users.users.lev = {
     isNormalUser = true;
     description = "lev";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     shell = pkgs.zsh;
-    useDefaultShell = true;
     packages = [ ];
   };
 

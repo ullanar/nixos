@@ -5,6 +5,7 @@
     ./pipewire.nix
   ];
 
-  # Enable CUPS to print documents
+  virtualisation.docker.enable = true;
+
   services.printing.enable = true;
 }

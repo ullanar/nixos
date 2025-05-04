@@ -14,7 +14,7 @@
       nrs = "sudo nixos-rebuild switch --flake /etc/nixos#$(hostname)";
 
       # Config editing aliases
-      cfg = "cd /etc/nixos";
+      cfg = "nvim /etc/nixos";
       cfgd = "nvim /etc/nixos/hosts/nixarchy/default.nix";
       cfgl = "nvim /etc/nixos/hosts/laptop/default.nix";
       cfgh = "nvim /etc/nixos/home_manager/default.nix";
