@@ -1,21 +1,30 @@
 { config, lib, pkgs, ... }:
+let
+  kittyPackage = pkgs.kitty.overrideAttrs (oldAttrs: {
+    preFixup = (oldAttrs.preFixup or "") + ''
+      # Remove bash integration script to prevent the warning
+      rm -f $out/lib/kitty/shell-integration/bash/kitty.bash
+      # Create a dummy file so kitty doesn't complain
+      mkdir -p $out/lib/kitty/shell-integration/bash
+      echo "# Disabled" > $out/lib/kitty/shell-integration/bash/kitty.bash
+    '';
+  });
+in
 {
   home.packages = with pkgs; [
     jetbrains-mono
-    nerdfonts
-    (nerdfonts.override {
-      fonts = [
-        "JetBrainsMono"
-        "NerdFontsSymbolsOnly"
-      ];
-    })
+    # Use the new nerd-fonts structure
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
   ];
-
   programs.kitty = lib.mkForce {
     enable = true;
+    package = kittyPackage;
     settings = {
       shell = "${pkgs.zsh}/bin/zsh";
-      shell_integration = "no-rc";
+      shell_integration = "disabled";
+      linux_display_server = "auto";
+      update_check_interval = 0;
       confirm_os_window_close = 0;
       dynamic_background_opacity = true;
       enable_audio_bell = false;
@@ -53,7 +62,6 @@
         in
         (builtins.concatStringsSep "," mappings) + " JetBrainsMono Nerd Font";
     };
-
     keybindings = {
       "ctrl+shift+c" = "copy_to_clipboard";
       "ctrl+shift+v" = "paste_from_clipboard";

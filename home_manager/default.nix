@@ -6,6 +6,7 @@
     ./dev
     ./gaming
     ./machine
+    # ./secrets
   ];
 
   # Basic user information

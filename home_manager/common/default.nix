@@ -6,5 +6,6 @@
     ./kitty.nix
     ./zsh.nix
     ./git.nix
+    ./camera.nix
   ];
 }
